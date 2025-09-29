@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service Validator { // manda requisição e recebe uma resposta
+  rpc ValidateDocument (ValidationRequest) returns (ValidationResponse) {}
+}
+
+
+message ValidationRequest { // o que vai ser mandado
+  string document_number = 1;
+}
+
+// The data we get back in a response
+message ValidationResponse { // o que vai ser recebido
+  bool is_valid = 1;
+}
