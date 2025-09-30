@@ -4,7 +4,9 @@ import (
 	"context"
 	"log"
 	"net"
+	"regexp"
 
+	"github.com/paemuri/brdoc"
 	"google.golang.org/grpc"
 
 	// importa o proto gerado
@@ -17,11 +19,32 @@ type server struct {
 }
 
 func (s *server) ValidateDocument(ctx context.Context, req *pb.ValidationRequest) (*pb.ValidationResponse, error) {
-	log.Printf("Received document number: %v", req.GetDocumentNumber())
+	doc := req.GetDocument()
+	log.Printf("Received document for validation: %v", doc)
 
-	isValid := req.GetDocumentNumber() != ""
+	re := regexp.MustCompile(`[^0-9]`)
+	cleanedDoc := re.ReplaceAllString(doc, "")
 
-	return &pb.ValidationResponse{IsValid: isValid}, nil
+	if len(cleanedDoc) == 11 {
+		isValid := brdoc.IsCPF(cleanedDoc)
+		return &pb.ValidationResponse{
+			IsValid:      isValid,
+			DocumentType: pb.DocumentType_CPF,
+		}, nil
+	}
+
+	if len(cleanedDoc) == 14 {
+		isValid := brdoc.IsCNPJ(cleanedDoc)
+		return &pb.ValidationResponse{
+			IsValid:      isValid,
+			DocumentType: pb.DocumentType_CNPJ,
+		}, nil
+	}
+
+	return &pb.ValidationResponse{
+		IsValid:      false,
+		DocumentType: pb.DocumentType_UNKNOWN,
+	}, nil
 }
 
 func main() {

@@ -14,14 +14,18 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'validator.pbenum.dart';
+
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
+
+export 'validator.pbenum.dart';
 
 class ValidationRequest extends $pb.GeneratedMessage {
   factory ValidationRequest({
-    $core.String? documentNumber,
+    $core.String? document,
   }) {
     final result = create();
-    if (documentNumber != null) result.documentNumber = documentNumber;
+    if (document != null) result.document = document;
     return result;
   }
 
@@ -38,7 +42,7 @@ class ValidationRequest extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'ValidationRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'validator'),
       createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'documentNumber')
+    ..aOS(1, _omitFieldNames ? '' : 'document')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -63,22 +67,23 @@ class ValidationRequest extends $pb.GeneratedMessage {
   static ValidationRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get documentNumber => $_getSZ(0);
+  $core.String get document => $_getSZ(0);
   @$pb.TagNumber(1)
-  set documentNumber($core.String value) => $_setString(0, value);
+  set document($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
-  $core.bool hasDocumentNumber() => $_has(0);
+  $core.bool hasDocument() => $_has(0);
   @$pb.TagNumber(1)
-  void clearDocumentNumber() => $_clearField(1);
+  void clearDocument() => $_clearField(1);
 }
 
-/// The data we get back in a response
 class ValidationResponse extends $pb.GeneratedMessage {
   factory ValidationResponse({
     $core.bool? isValid,
+    DocumentType? documentType,
   }) {
     final result = create();
     if (isValid != null) result.isValid = isValid;
+    if (documentType != null) result.documentType = documentType;
     return result;
   }
 
@@ -96,6 +101,11 @@ class ValidationResponse extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'validator'),
       createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'isValid')
+    ..e<DocumentType>(
+        2, _omitFieldNames ? '' : 'documentType', $pb.PbFieldType.OE,
+        defaultOrMaker: DocumentType.UNKNOWN,
+        valueOf: DocumentType.valueOf,
+        enumValues: DocumentType.values)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -127,6 +137,15 @@ class ValidationResponse extends $pb.GeneratedMessage {
   $core.bool hasIsValid() => $_has(0);
   @$pb.TagNumber(1)
   void clearIsValid() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  DocumentType get documentType => $_getN(1);
+  @$pb.TagNumber(2)
+  set documentType(DocumentType value) => $_setField(2, value);
+  @$pb.TagNumber(2)
+  $core.bool hasDocumentType() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDocumentType() => $_clearField(2);
 }
 
 const $core.bool _omitFieldNames =

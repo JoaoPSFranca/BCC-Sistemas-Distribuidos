@@ -21,11 +21,61 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Enum para os tipos de documento
+type DocumentType int32
+
+const (
+	DocumentType_UNKNOWN DocumentType = 0
+	DocumentType_CPF     DocumentType = 1
+	DocumentType_CNPJ    DocumentType = 2
+)
+
+// Enum value maps for DocumentType.
+var (
+	DocumentType_name = map[int32]string{
+		0: "UNKNOWN",
+		1: "CPF",
+		2: "CNPJ",
+	}
+	DocumentType_value = map[string]int32{
+		"UNKNOWN": 0,
+		"CPF":     1,
+		"CNPJ":    2,
+	}
+)
+
+func (x DocumentType) Enum() *DocumentType {
+	p := new(DocumentType)
+	*p = x
+	return p
+}
+
+func (x DocumentType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DocumentType) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_validator_validator_proto_enumTypes[0].Descriptor()
+}
+
+func (DocumentType) Type() protoreflect.EnumType {
+	return &file_proto_validator_validator_proto_enumTypes[0]
+}
+
+func (x DocumentType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DocumentType.Descriptor instead.
+func (DocumentType) EnumDescriptor() ([]byte, []int) {
+	return file_proto_validator_validator_proto_rawDescGZIP(), []int{0}
+}
+
 type ValidationRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	DocumentNumber string                 `protobuf:"bytes,1,opt,name=document_number,json=documentNumber,proto3" json:"document_number,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Document      string                 `protobuf:"bytes,1,opt,name=document,proto3" json:"document,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ValidationRequest) Reset() {
@@ -58,9 +108,9 @@ func (*ValidationRequest) Descriptor() ([]byte, []int) {
 	return file_proto_validator_validator_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ValidationRequest) GetDocumentNumber() string {
+func (x *ValidationRequest) GetDocument() string {
 	if x != nil {
-		return x.DocumentNumber
+		return x.Document
 	}
 	return ""
 }
@@ -68,6 +118,7 @@ func (x *ValidationRequest) GetDocumentNumber() string {
 type ValidationResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	IsValid       bool                   `protobuf:"varint,1,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
+	DocumentType  DocumentType           `protobuf:"varint,2,opt,name=document_type,json=documentType,proto3,enum=validator.DocumentType" json:"document_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -109,15 +160,27 @@ func (x *ValidationResponse) GetIsValid() bool {
 	return false
 }
 
+func (x *ValidationResponse) GetDocumentType() DocumentType {
+	if x != nil {
+		return x.DocumentType
+	}
+	return DocumentType_UNKNOWN
+}
+
 var File_proto_validator_validator_proto protoreflect.FileDescriptor
 
 const file_proto_validator_validator_proto_rawDesc = "" +
 	"\n" +
-	"\x1fproto/validator/validator.proto\x12\tvalidator\"<\n" +
-	"\x11ValidationRequest\x12'\n" +
-	"\x0fdocument_number\x18\x01 \x01(\tR\x0edocumentNumber\"/\n" +
+	"\x1fproto/validator/validator.proto\x12\tvalidator\"/\n" +
+	"\x11ValidationRequest\x12\x1a\n" +
+	"\bdocument\x18\x01 \x01(\tR\bdocument\"m\n" +
 	"\x12ValidationResponse\x12\x19\n" +
-	"\bis_valid\x18\x01 \x01(\bR\aisValid2^\n" +
+	"\bis_valid\x18\x01 \x01(\bR\aisValid\x12<\n" +
+	"\rdocument_type\x18\x02 \x01(\x0e2\x17.validator.DocumentTypeR\fdocumentType*.\n" +
+	"\fDocumentType\x12\v\n" +
+	"\aUNKNOWN\x10\x00\x12\a\n" +
+	"\x03CPF\x10\x01\x12\b\n" +
+	"\x04CNPJ\x10\x022^\n" +
 	"\tValidator\x12Q\n" +
 	"\x10ValidateDocument\x12\x1c.validator.ValidationRequest\x1a\x1d.validator.ValidationResponse\"\x00B+Z)document-validator-server/proto/validatorb\x06proto3"
 
@@ -133,19 +196,22 @@ func file_proto_validator_validator_proto_rawDescGZIP() []byte {
 	return file_proto_validator_validator_proto_rawDescData
 }
 
+var file_proto_validator_validator_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_proto_validator_validator_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_proto_validator_validator_proto_goTypes = []any{
-	(*ValidationRequest)(nil),  // 0: validator.ValidationRequest
-	(*ValidationResponse)(nil), // 1: validator.ValidationResponse
+	(DocumentType)(0),          // 0: validator.DocumentType
+	(*ValidationRequest)(nil),  // 1: validator.ValidationRequest
+	(*ValidationResponse)(nil), // 2: validator.ValidationResponse
 }
 var file_proto_validator_validator_proto_depIdxs = []int32{
-	0, // 0: validator.Validator.ValidateDocument:input_type -> validator.ValidationRequest
-	1, // 1: validator.Validator.ValidateDocument:output_type -> validator.ValidationResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: validator.ValidationResponse.document_type:type_name -> validator.DocumentType
+	1, // 1: validator.Validator.ValidateDocument:input_type -> validator.ValidationRequest
+	2, // 2: validator.Validator.ValidateDocument:output_type -> validator.ValidationResponse
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_proto_validator_validator_proto_init() }
@@ -158,13 +224,14 @@ func file_proto_validator_validator_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_validator_validator_proto_rawDesc), len(file_proto_validator_validator_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_proto_validator_validator_proto_goTypes,
 		DependencyIndexes: file_proto_validator_validator_proto_depIdxs,
+		EnumInfos:         file_proto_validator_validator_proto_enumTypes,
 		MessageInfos:      file_proto_validator_validator_proto_msgTypes,
 	}.Build()
 	File_proto_validator_validator_proto = out.File

@@ -1,15 +1,24 @@
 syntax = "proto3";
 package validator;
 
+option go_package = "document-validator-server/proto/validator";
+
+// Enum para os tipos de documento
+enum DocumentType {
+  UNKNOWN = 0;
+  CPF = 1;
+  CNPJ = 2;
+}
+
 service Validator { // manda requisição e recebe uma resposta
   rpc ValidateDocument (ValidationRequest) returns (ValidationResponse) {}
 }
 
 message ValidationRequest { // o que vai ser mandado
-  string document_number = 1;
+  string document = 1;
 }
 
-// The data we get back in a response
 message ValidationResponse { // o que vai ser recebido
   bool is_valid = 1;
+  DocumentType document_type = 2;
 }
