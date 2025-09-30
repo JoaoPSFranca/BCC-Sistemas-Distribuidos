@@ -36,6 +36,7 @@ class ValidationRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ValidationRequest',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'validator'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'documentNumber')
     ..hasRequiredFields = false;
@@ -92,6 +93,7 @@ class ValidationResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ValidationResponse',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'validator'),
       createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'isValid')
     ..hasRequiredFields = false;

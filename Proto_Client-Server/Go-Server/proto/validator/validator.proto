@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package validator;
+
+option go_package = "document-validator-server/proto/validator";
+
+service Validator {
+  rpc ValidateDocument (ValidationRequest) returns (ValidationResponse) {}
+}
+
+message ValidationRequest {
+  string document_number = 1;
+}
+
+message ValidationResponse {
+  bool is_valid = 1;
+}

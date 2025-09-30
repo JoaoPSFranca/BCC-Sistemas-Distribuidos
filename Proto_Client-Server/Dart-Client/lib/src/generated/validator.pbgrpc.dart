@@ -20,7 +20,7 @@ import 'validator.pb.dart' as $0;
 
 export 'validator.pb.dart';
 
-@$pb.GrpcServiceName('Validator')
+@$pb.GrpcServiceName('validator.Validator')
 class ValidatorClient extends $grpc.Client {
   /// The hostname for this service.
   static const $core.String defaultHost = '';
@@ -43,14 +43,14 @@ class ValidatorClient extends $grpc.Client {
 
   static final _$validateDocument =
       $grpc.ClientMethod<$0.ValidationRequest, $0.ValidationResponse>(
-          '/Validator/ValidateDocument',
+          '/validator.Validator/ValidateDocument',
           ($0.ValidationRequest value) => value.writeToBuffer(),
           $0.ValidationResponse.fromBuffer);
 }
 
-@$pb.GrpcServiceName('Validator')
+@$pb.GrpcServiceName('validator.Validator')
 abstract class ValidatorServiceBase extends $grpc.Service {
-  $core.String get $name => 'Validator';
+  $core.String get $name => 'validator.Validator';
 
   ValidatorServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.ValidationRequest, $0.ValidationResponse>(

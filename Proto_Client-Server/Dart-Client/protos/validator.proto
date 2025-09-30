@@ -1,9 +1,9 @@
 syntax = "proto3";
+package validator;
 
 service Validator { // manda requisição e recebe uma resposta
   rpc ValidateDocument (ValidationRequest) returns (ValidationResponse) {}
 }
-
 
 message ValidationRequest { // o que vai ser mandado
   string document_number = 1;
