@@ -1,5 +1,5 @@
 import express from 'express';
-import { soap } from 'soap';
+import * as soap from 'soap';
 import { myService } from './myService';
 import fs from 'fs';
 

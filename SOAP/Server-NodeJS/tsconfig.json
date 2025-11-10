@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    /* ----- O Ponto Principal da Correção ----- */
+    "module": "CommonJS", // Diz ao ts-node para usar o sistema de módulos clássico
+
+    /* ----- Outras boas práticas ----- */
+    "target": "ES2020",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
