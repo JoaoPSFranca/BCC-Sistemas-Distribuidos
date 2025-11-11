@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    /* ----- O Ponto Principal da Correção ----- */
-    "module": "CommonJS", // Diz ao ts-node para usar o sistema de módulos clássico
-
-    /* ----- Outras boas práticas ----- */
-    "target": "ES2020",
-    "esModuleInterop": true,
+    "target": "es2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "strict": true,
-    "skipLibCheck": true
-  }
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
