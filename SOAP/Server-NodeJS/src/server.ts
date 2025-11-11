@@ -16,15 +16,12 @@ export function startServer() {
   const port = 3000;
   const servicesToMount: IServiceToMount[] = [];
 
-  // --- Fase 1: Carregar WSDLs ---
-  // Iteramos sobre o nosso "registro"
   for (const serviceDef of allServices) {
     const wsdlPath = path.join(__dirname, 'services', serviceDef.wsdlFile);
     let xml;
 
     try {
       xml = readFileSync(wsdlPath, 'utf8');
-      console.log(`Arquivo ${serviceDef.wsdlFile} lido com sucesso.`);
       
       servicesToMount.push({
         name: serviceDef.name,
@@ -38,11 +35,9 @@ export function startServer() {
     }
   }
 
-  // --- Fase 2: Iniciar o Servidor e Montar Serviços ---
   app.listen(port, () => {
     console.log(`Servidor HTTP ouvindo na porta ${port}`);
 
-    // Iteramos sobre os serviços que foram carregados com sucesso
     for (const service of servicesToMount) {
       soap.listen(app, service.path, service.service, service.xml, () => {
         console.log(`Servidor SOAP "${service.name}" iniciado em ${service.path}`);

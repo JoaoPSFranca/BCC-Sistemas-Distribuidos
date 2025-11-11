@@ -91,18 +91,10 @@ class SoapService {
       documentType,
     );
 
-    print('--- REQUISIÇÃO SOAP (Enviando) ---');
-    print(envelope);
-    print('----------------------------------');
-
     try {
       final response = await _sendRequest(soapAction, envelope);
 
       if (response.statusCode == 200) {
-        print('--- RESPOSTA SOAP (Recebida) ---');
-        print(response.body);
-        print('---------------------------------');
-
         return _parseResponse(response.body);
       } else {
         print('--- FALHA SOAP (Recebida) ---');
