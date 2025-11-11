@@ -1,0 +1,52 @@
+import express from 'express';
+import * as soap from 'soap';
+import { readFileSync } from 'fs';
+import * as path from 'path';
+import { allServices } from './services';
+
+interface IServiceToMount {
+  name: string;
+  path: string;
+  service: any;
+  xml: string;
+}
+
+export function startServer() {
+  const app = express();
+  const port = 3000;
+  const servicesToMount: IServiceToMount[] = [];
+
+  // --- Fase 1: Carregar WSDLs ---
+  // Iteramos sobre o nosso "registro"
+  for (const serviceDef of allServices) {
+    const wsdlPath = path.join(__dirname, 'services', serviceDef.wsdlFile);
+    let xml;
+
+    try {
+      xml = readFileSync(wsdlPath, 'utf8');
+      console.log(`Arquivo ${serviceDef.wsdlFile} lido com sucesso.`);
+      
+      servicesToMount.push({
+        name: serviceDef.name,
+        path: serviceDef.path,
+        service: serviceDef.service,
+        xml: xml,
+      });
+    } catch (e) {
+      console.error(`ERRO CRÍTICO: Não foi possível ler o arquivo WSDL em ${wsdlPath}`);
+      process.exit(1);
+    }
+  }
+
+  // --- Fase 2: Iniciar o Servidor e Montar Serviços ---
+  app.listen(port, () => {
+    console.log(`Servidor HTTP ouvindo na porta ${port}`);
+
+    // Iteramos sobre os serviços que foram carregados com sucesso
+    for (const service of servicesToMount) {
+      soap.listen(app, service.path, service.service, service.xml, () => {
+        console.log(`Servidor SOAP "${service.name}" iniciado em ${service.path}`);
+      });
+    }
+  });
+}

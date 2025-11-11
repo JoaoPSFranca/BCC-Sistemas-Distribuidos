@@ -1,0 +1,42 @@
+<definitions name="ValidatorService"
+             targetNamespace="http://example.com/validator"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://example.com/validator"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <message name="ValidateDocumentRequest">
+        <part name="documentNumber" type="xsd:string"/>
+        <part name="documentType" type="xsd:string"/>
+    </message>
+    <message name="ValidateDocumentResponse">
+        <part name="isValid" type="xsd:boolean"/>
+        <part name="message" type="xsd:string"/>
+    </message>
+
+    <portType name="ValidatorPort">
+        <operation name="validateDocument">
+            <input message="tns:ValidateDocumentRequest"/>
+            <output message="tns:ValidateDocumentResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="ValidatorBinding" type="tns:ValidatorPort">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="validateDocument">
+            <soap:operation soapAction="validateDocument"/>
+            <input>
+                <soap:body use="literal" namespace="http://example.com/validator"/>
+            </input>
+            <output>
+                <soap:body use="literal" namespace="http://example.com/validator"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="ValidatorService">
+        <port name="ValidatorPort" binding="tns:ValidatorBinding">
+            <soap:address location="http://localhost:3000/validator"/>
+        </port>
+    </service>
+</definitions>
